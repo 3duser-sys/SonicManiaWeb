@@ -264,6 +264,7 @@
       				case 'ArrowLeft': return 37;
       				case 'ArrowRight': return 39;
       				case 'KeyA': return 65;
+					case 'KeyW': return 87;
       				case 'Escape': return 27;
       				default: return 0;
     			}
@@ -275,8 +276,100 @@
     			}
     			return code;
   		}
+	
 
 	</script>
+	<script>
+  // ✅ Gamepad + W button code goes here
+  const gamepadButtonMap = {
+    0: "KeyA",
+    1: "KeyB",
+    2: "KeyX",
+    3: "KeyW",   // map Y button to W
+    9: "Escape",
+    12: "ArrowUp",
+    13: "ArrowDown",
+    14: "ArrowLeft",
+    15: "ArrowRight"
+  };
+
+  const gamepadAxesMap = {
+    0: ["ArrowLeft", "ArrowRight"],
+    1: ["ArrowUp", "ArrowDown"],
+  };
+
+  const pressedButtons = new Set();
+
+  function pollGamepads() {
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+    for (const gp of gamepads) {
+      if (!gp) continue;
+
+      // Handle buttons
+      gp.buttons.forEach((btn, index) => {
+        const key = gamepadButtonMap[index];
+        if (!key) return;
+        if (btn.pressed && !pressedButtons.has(key)) {
+          simulateKeyDown(key);
+          pressedButtons.add(key);
+        } else if (!btn.pressed && pressedButtons.has(key)) {
+          simulateKeyUp(key);
+          pressedButtons.delete(key);
+        }
+      });
+
+      // Handle sticks
+      gp.axes.forEach((value, index) => {
+        const mapping = gamepadAxesMap[index];
+        if (!mapping) return;
+        const [neg, pos] = mapping;
+
+        if (value < -0.5) {
+          if (!pressedButtons.has(neg)) {
+            simulateKeyDown(neg);
+            pressedButtons.add(neg);
+          }
+        } else if (pressedButtons.has(neg)) {
+          simulateKeyUp(neg);
+          pressedButtons.delete(neg);
+        }
+
+        if (value > 0.5) {
+          if (!pressedButtons.has(pos)) {
+            simulateKeyDown(pos);
+            pressedButtons.add(pos);
+          }
+        } else if (pressedButtons.has(pos)) {
+          simulateKeyUp(pos);
+          pressedButtons.delete(pos);
+        }
+      });
+    }
+    requestAnimationFrame(pollGamepads);
+  }
+
+  window.addEventListener("gamepadconnected", e => {
+    console.log("Gamepad connected:", e.gamepad);
+    pollGamepads();
+  });
+
+  window.addEventListener("gamepaddisconnected", e => {
+    console.log("Gamepad disconnected:", e.gamepad);
+  });
+
+  // Add W button to touch UI
+  const wBtn = document.createElement("button");
+  wBtn.innerText = "W";
+  wBtn.id = "btn-w";
+  document.getElementById("touch-controls").appendChild(wBtn);
+
+  wBtn.addEventListener("mousedown", e => { e.preventDefault(); simulateKeyDown("KeyW"); });
+  wBtn.addEventListener("mouseup", e => { e.preventDefault(); simulateKeyUp("KeyW"); });
+  wBtn.addEventListener("touchstart", e => { e.preventDefault(); simulateKeyDown("KeyW"); }, { passive: false });
+  wBtn.addEventListener("touchend", e => { e.preventDefault(); simulateKeyUp("KeyW"); }, { passive: false });
+</script>
+
+	
 
 		<textarea id="output" style="display: none;" rows="8"></textarea>
 
