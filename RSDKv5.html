@@ -140,10 +140,10 @@
                         
                         .joystick-container {
                                 position: relative;
-                                width: 100px;
-                                height: 100px;
+                                width: 140px;
+                                height: 140px;
                                 background: rgba(255,255,255,0.3);
-                                border: 2px solid rgba(0,0,0,0.3);
+                                border: 3px solid rgba(0,0,0,0.3);
                                 border-radius: 50%;
                                 pointer-events: auto;
                                 display: flex;
@@ -153,10 +153,10 @@
                         
                         .joystick-knob {
                                 position: relative;
-                                width: 40px;
-                                height: 40px;
+                                width: 60px;
+                                height: 60px;
                                 background: rgba(255,255,255,0.8);
-                                border: 2px solid rgba(0,0,0,0.4);
+                                border: 3px solid rgba(0,0,0,0.4);
                                 border-radius: 50%;
                                 cursor: grab;
                                 touch-action: none;
@@ -170,8 +170,8 @@
                         
                         .dpad-container {
                                 position: relative;
-                                width: 100px;
-                                height: 100px;
+                                width: 130px;
+                                height: 130px;
                                 pointer-events: auto;
                         }
                         
@@ -191,12 +191,12 @@
                         
                         .dpad-btn {
                                 position: absolute;
-                                width: 30px;
-                                height: 30px;
+                                width: 45px;
+                                height: 45px;
                                 background: rgba(255,255,255,0.7);
-                                border: 2px solid rgba(0,0,0,0.3);
-                                border-radius: 6px;
-                                font-size: 1.2rem;
+                                border: 3px solid rgba(0,0,0,0.3);
+                                border-radius: 8px;
+                                font-size: 1.8rem;
                                 color: black;
                                 display: flex;
                                 align-items: center;
@@ -210,18 +210,18 @@
                                 transform: scale(0.95);
                         }
                         
-                        .dpad-up { top: 0; left: 30px; }
-                        .dpad-down { bottom: 0; left: 30px; }
-                        .dpad-left { top: 30px; left: 0; }
-                        .dpad-right { top: 30px; right: 0; }
+                        .dpad-up { top: 0; left: 42px; }
+                        .dpad-down { bottom: 0; left: 42px; }
+                        .dpad-left { top: 42px; left: 0; }
+                        .dpad-right { top: 42px; right: 0; }
                         
                         .action-btn {
-                                width: 50px;
-                                height: 50px;
+                                width: 70px;
+                                height: 70px;
                                 background: rgba(255,255,255,0.7);
-                                border: 2px solid rgba(0,0,0,0.3);
+                                border: 3px solid rgba(0,0,0,0.3);
                                 border-radius: 50%;
-                                font-size: 1.2rem;
+                                font-size: 1.8rem;
                                 font-weight: bold;
                                 color: black;
                                 display: flex;
@@ -237,12 +237,12 @@
                         }
                         
                         .menu-btn {
-                                width: 60px;
-                                height: 30px;
+                                width: 80px;
+                                height: 40px;
                                 background: rgba(255,255,255,0.6);
-                                border: 2px solid rgba(0,0,0,0.3);
-                                border-radius: 15px;
-                                font-size: 0.8rem;
+                                border: 3px solid rgba(0,0,0,0.3);
+                                border-radius: 20px;
+                                font-size: 1.0rem;
                                 color: black;
                                 display: flex;
                                 align-items: center;
@@ -527,7 +527,7 @@ class VirtualJoystick {
         this.isDragging = false;
         this.centerX = 0;
         this.centerY = 0;
-        this.maxDistance = 30; // Max distance knob can move from center
+        this.maxDistance = 40; // Max distance knob can move from center
         this.currentDirection = { up: false, down: false, left: false, right: false };
         
         this.init();
@@ -542,10 +542,11 @@ class VirtualJoystick {
         document.addEventListener('mousemove', this.onDrag.bind(this));
         document.addEventListener('mouseup', this.endDrag.bind(this));
         
-        // Touch events
-        this.knob.addEventListener('touchstart', this.startDrag.bind(this), { passive: false });
+        // Touch events - use capture to handle before other elements
+        this.knob.addEventListener('touchstart', this.startDrag.bind(this), { passive: false, capture: true });
         document.addEventListener('touchmove', this.onDrag.bind(this), { passive: false });
         document.addEventListener('touchend', this.endDrag.bind(this));
+        document.addEventListener('touchcancel', this.endDrag.bind(this));
         
         // Resize handler
         window.addEventListener('resize', this.updateCenter.bind(this));
@@ -568,8 +569,21 @@ class VirtualJoystick {
         
         e.preventDefault();
         
-        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
-        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        // Handle multiple touches - find the touch that started the drag
+        let clientX, clientY;
+        if (e.type.includes('touch')) {
+            // Find our touch among multiple touches
+            for (let touch of e.touches) {
+                // Use the first touch if we can't identify the specific one
+                clientX = touch.clientX;
+                clientY = touch.clientY;
+                break;
+            }
+            if (!clientX) return; // No touches found
+        } else {
+            clientX = e.clientX;
+            clientY = e.clientY;
+        }
         
         const deltaX = clientX - this.centerX;
         const deltaY = clientY - this.centerY;
