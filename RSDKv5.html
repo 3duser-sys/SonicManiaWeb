@@ -351,90 +351,56 @@ updateGamepadInfo();
                 };
 
                 for (const [btnId, key] of Object.entries(buttons)) {
-                        const btn = document.getElementById(btnId);
-                        if (!btn) continue;
-                        btn.addEventListener('touchstart', e => {
-                                e.preventDefault();
-                                simulateKeyDown(key);
-                        }, {passive: false});
-                        btn.addEventListener('touchmove', e => {
-                                e.preventDefault();
-                        }, { passive: false });
-                        
-                        btn.addEventListener('mousedown', e => {
-                                e.preventDefault();
-                                simulateKeyDown(key);
-                        });
+    const btn = document.getElementById(btnId);
+    if (!btn) continue;
 
-                        btn.addEventListener('touchend', e => {
-                                e.preventDefault();
-                                simulateKeyUp(key);
-                        }, {passive: false});
-                        btn.addEventListener('mouseup', e => {
-                                e.preventDefault();
-                                simulateKeyUp(key);
-                        });
-                }
+    const activeTouches = new Map(); // track individual touches
 
-                const keysPressed = new Set();
-                function simulateKeyDown(code) {
-                        if (keysPressed.has(code)) return;
-                        keysPressed.add(code);
+    btn.addEventListener('touchstart', e => {
+        e.preventDefault();
+        for (const t of e.changedTouches) {
+            if (!activeTouches.has(t.identifier)) {
+                simulateKeyDown(key);
+                activeTouches.set(t.identifier, true);
+            }
+        }
+    }, { passive: false });
 
-                        const key = codeToKey(code);
+    btn.addEventListener('touchend', e => {
+        e.preventDefault();
+        for (const t of e.changedTouches) {
+            if (activeTouches.has(t.identifier)) {
+                simulateKeyUp(key);
+                activeTouches.delete(t.identifier);
+            }
+        }
+    }, { passive: false });
 
-                        const event = new KeyboardEvent('keydown', {
-                                key: key,
-                                code: code,
-                                keyCode: eventKeyCode(code),
-                                which: eventKeyCode(code),
-                                bubbles: true,
-                                cancelable: true,
-                                composed: true
-                        });
+    btn.addEventListener('touchcancel', e => {
+        e.preventDefault();
+        for (const t of e.changedTouches) {
+            if (activeTouches.has(t.identifier)) {
+                simulateKeyUp(key);
+                activeTouches.delete(t.identifier);
+            }
+        }
+    }, { passive: false });
 
-                        window.dispatchEvent(event);
-                }
+    // fallback for mouse clicks
+    btn.addEventListener('mousedown', e => {
+        e.preventDefault();
+        simulateKeyDown(key);
+    });
+    btn.addEventListener('mouseup', e => {
+        e.preventDefault();
+        simulateKeyUp(key);
+    });
+    btn.addEventListener('mouseleave', e => {
+        e.preventDefault();
+        simulateKeyUp(key);
+    });
+}
 
-                function simulateKeyUp(code) {
-                        if (!keysPressed.has(code)) return;
-                        keysPressed.delete(code);
-
-                        const key = codeToKey(code);
-
-                        const event = new KeyboardEvent('keyup', {
-                                key: key,
-                                code: code,
-                                keyCode: eventKeyCode(code),
-                                which: eventKeyCode(code),
-                                bubbles: true,
-                                cancelable: true,
-                                composed: true
-                        });
-
-                        window.dispatchEvent(event);
-                }
-
-                function eventKeyCode(code) {
-                        switch(code) {
-                                case 'ArrowUp': return 38;
-                                case 'ArrowDown': return 40;
-                                case 'ArrowLeft': return 37;
-                                case 'ArrowRight': return 39;
-                                case 'KeyA': return 65;
-                                        case 'KeyW': return 87;
-                                case 'Escape': return 27;
-                                default: return 0;
-                        }
-                }       
-
-                function codeToKey(code) {
-                        if (code.startsWith('Key')) {
-                                return code[3].toLowerCase();
-                        }
-                        return code;
-                }
-        
 
         </script>
         <script>
@@ -527,81 +493,79 @@ class VirtualJoystick {
         this.isDragging = false;
         this.centerX = 0;
         this.centerY = 0;
-        this.maxDistance = 40; // Max distance knob can move from center
+        this.maxDistance = 40;
         this.currentDirection = { up: false, down: false, left: false, right: false };
+        this.joystickTouchId = null; // <-- new line
         
         this.init();
     }
-    
+
     init() {
-        // Set initial position
         this.updateCenter();
-        
-        // Mouse events
+
         this.knob.addEventListener('mousedown', this.startDrag.bind(this));
         document.addEventListener('mousemove', this.onDrag.bind(this));
         document.addEventListener('mouseup', this.endDrag.bind(this));
-        
-        // Touch events - use capture to handle before other elements
+
         this.knob.addEventListener('touchstart', this.startDrag.bind(this), { passive: false, capture: true });
         document.addEventListener('touchmove', this.onDrag.bind(this), { passive: false });
         document.addEventListener('touchend', this.endDrag.bind(this));
         document.addEventListener('touchcancel', this.endDrag.bind(this));
-        
-        // Resize handler
+
         window.addEventListener('resize', this.updateCenter.bind(this));
     }
-    
+
     updateCenter() {
         const rect = this.container.getBoundingClientRect();
         this.centerX = rect.left + rect.width / 2;
         this.centerY = rect.top + rect.height / 2;
     }
-    
+
     startDrag(e) {
         e.preventDefault();
         this.isDragging = true;
-        this.updateCenter();
+
+        if (e.type.startsWith('touch')) {
+            this.joystickTouchId = e.changedTouches[0].identifier;
+        }
     }
-    
+
     onDrag(e) {
         if (!this.isDragging) return;
-        
         e.preventDefault();
-        
-        // Handle multiple touches - find the touch that started the drag
+
         let clientX, clientY;
-        if (e.type.includes('touch')) {
-            // Find our touch among multiple touches
-            for (let touch of e.touches) {
-                // Use the first touch if we can't identify the specific one
-                clientX = touch.clientX;
-                clientY = touch.clientY;
-                break;
+
+        if (e.type.startsWith('touch')) {
+            let touch = null;
+            for (let t of e.touches) {
+                if (t.identifier === this.joystickTouchId) {
+                    touch = t;
+                    break;
+                }
             }
-            if (!clientX) return; // No touches found
+            if (!touch) return;
+            clientX = touch.clientX;
+            clientY = touch.clientY;
         } else {
             clientX = e.clientX;
             clientY = e.clientY;
         }
-        
+
         const deltaX = clientX - this.centerX;
         const deltaY = clientY - this.centerY;
         const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
-        
-        // Constrain knob to circle
+
         let x = deltaX;
         let y = deltaY;
-        
+
         if (distance > this.maxDistance) {
             x = (deltaX / distance) * this.maxDistance;
             y = (deltaY / distance) * this.maxDistance;
         }
-        
-        // Update knob position
+
         this.knob.style.transform = `translate(${x}px, ${y}px)`;
-        
-        // Calculate directions (with deadzone)
+
         const deadzone = 10;
         const newDirection = {
             up: y < -deadzone,
@@ -609,56 +573,34 @@ class VirtualJoystick {
             left: x < -deadzone,
             right: x > deadzone
         };
-        
-        // Trigger key events when direction changes
+
         this.updateDirectionKeys(newDirection);
     }
-    
+
     endDrag(e) {
         if (!this.isDragging) return;
-        
         e.preventDefault();
         this.isDragging = false;
-        
-        // Reset knob position
+        this.joystickTouchId = null;
         this.knob.style.transform = 'translate(0px, 0px)';
-        
-        // Release all direction keys
         this.updateDirectionKeys({ up: false, down: false, left: false, right: false });
     }
-    
+
     updateDirectionKeys(newDirection) {
-        // Release keys that are no longer pressed
-        if (this.currentDirection.up && !newDirection.up) {
-            simulateKeyUp('ArrowUp');
-        }
-        if (this.currentDirection.down && !newDirection.down) {
-            simulateKeyUp('ArrowDown');
-        }
-        if (this.currentDirection.left && !newDirection.left) {
-            simulateKeyUp('ArrowLeft');
-        }
-        if (this.currentDirection.right && !newDirection.right) {
-            simulateKeyUp('ArrowRight');
-        }
-        
-        // Press keys that are newly pressed
-        if (!this.currentDirection.up && newDirection.up) {
-            simulateKeyDown('ArrowUp');
-        }
-        if (!this.currentDirection.down && newDirection.down) {
-            simulateKeyDown('ArrowDown');
-        }
-        if (!this.currentDirection.left && newDirection.left) {
-            simulateKeyDown('ArrowLeft');
-        }
-        if (!this.currentDirection.right && newDirection.right) {
-            simulateKeyDown('ArrowRight');
-        }
-        
+        if (this.currentDirection.up && !newDirection.up) simulateKeyUp('ArrowUp');
+        if (this.currentDirection.down && !newDirection.down) simulateKeyUp('ArrowDown');
+        if (this.currentDirection.left && !newDirection.left) simulateKeyUp('ArrowLeft');
+        if (this.currentDirection.right && !newDirection.right) simulateKeyUp('ArrowRight');
+
+        if (!this.currentDirection.up && newDirection.up) simulateKeyDown('ArrowUp');
+        if (!this.currentDirection.down && newDirection.down) simulateKeyDown('ArrowDown');
+        if (!this.currentDirection.left && newDirection.left) simulateKeyDown('ArrowLeft');
+        if (!this.currentDirection.right && newDirection.right) simulateKeyDown('ArrowRight');
+
         this.currentDirection = newDirection;
     }
 }
+
 
 // Initialize joystick when page loads
 document.addEventListener('DOMContentLoaded', function() {
