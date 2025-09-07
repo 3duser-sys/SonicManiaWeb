@@ -171,6 +171,18 @@
   			<img src="icons/icon-192.png" width="128" height="128" alt="Sonic Mania Icon" />
   			<h2 style="color: white; margin-top: 20px;">Tap to Start</h2>
 		</div>
+		<div id="gamepad-info" style="
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    background: rgba(0,0,0,0.5);
+    color: white;
+    padding: 8px 12px;
+    border-radius: 8px;
+    font-family: Arial, sans-serif;
+    font-size: 0.9rem;
+    z-index: 10000;
+"></div>
 
 		<!-- Add this div right here -->
 		<div id="touch-controls">
@@ -182,6 +194,27 @@
   			<button id="btn-escape">Menu</button>
 
 		</div>
+		
+<script>
+function updateGamepadInfo() {
+    const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
+    const infoDiv = document.getElementById('gamepad-info');
+    const connectedPads = Array.from(gamepads).filter(gp => gp);
+    
+    if (connectedPads.length === 0) {
+        infoDiv.textContent = 'No controllers connected';
+    } else {
+        const names = connectedPads.map((gp, i) => `#${i+1}: ${gp.id}`).join(', ');
+        infoDiv.textContent = `Controllers (${connectedPads.length}): ${names}`;
+    }
+
+    requestAnimationFrame(updateGamepadInfo);
+}
+
+// start updating info
+updateGamepadInfo();
+</script>
+
 	<script>
   		const buttons = {
     			'btn-up': 'ArrowUp',
