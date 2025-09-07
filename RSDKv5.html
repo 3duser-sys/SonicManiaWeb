@@ -2,176 +2,282 @@
 <!doctype html>
 <!--suppress HtmlFormInputWithoutLabel, JSDeprecatedSymbols -->
 <html lang="en-us">
-	<head>
-		<meta charset="utf-8" />
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <head>
+                <meta charset="utf-8" />
+                <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+                <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-		<title>Sonic Mania</title>
-		 <link rel="manifest" href="manifest.json" />
-  		<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png" />
+                <title>Sonic Mania</title>
+                 <link rel="manifest" href="manifest.json" />
+                <link rel="apple-touch-icon" sizes="180x180" href="icons/icon-180.png" />
 
-		<link type="text/css" rel="stylesheet" href="css/fonts.css" />
-		<style type="text/css">
-			html, body {
-				font-family: arial, sans-serif;
-				margin: 0;
-				padding: 0;
-				width: 100%;
-				height: 100%;
-				overflow: hidden;
-				background-color: #000;
-				text-align: center;
-			}
+                <link type="text/css" rel="stylesheet" href="css/fonts.css" />
+                <style type="text/css">
+                        html, body {
+                                font-family: arial, sans-serif;
+                                margin: 0;
+                                padding: 0;
+                                width: 100%;
+                                height: 100%;
+                                overflow: hidden;
+                                background-color: #000;
+                                text-align: center;
+                        }
 
-			/*noinspection CssInvalidPropertyValue,CssOverwrittenProperties*/
-			canvas {
-				height: 100%;
-				margin: auto;
-				padding: 0;
-				border: 0 none;
-				background-color: #000;
-				-ms-interpolation-mode: nearest-neighbor;
-				image-rendering: optimizeSpeed;
-				image-rendering: -webkit-optimize-contrast;
-				image-rendering: -moz-crisp-edges;
-				image-rendering: -o-crisp-edges;
-				image-rendering: crisp-edges;
-				image-rendering: pixelated;
-			}
+                        /*noinspection CssInvalidPropertyValue,CssOverwrittenProperties*/
+                        canvas {
+                                height: 100%;
+                                margin: auto;
+                                padding: 0;
+                                border: 0 none;
+                                background-color: #000;
+                                -ms-interpolation-mode: nearest-neighbor;
+                                image-rendering: optimizeSpeed;
+                                image-rendering: -webkit-optimize-contrast;
+                                image-rendering: -moz-crisp-edges;
+                                image-rendering: -o-crisp-edges;
+                                image-rendering: crisp-edges;
+                                image-rendering: pixelated;
+                        }
 
-			.spinner {
-				height: 30px;
-				width: 30px;
-				margin: 20px 0 0 20px;
-				display: inline-block;
-				vertical-align: top;
+                        .spinner {
+                                height: 30px;
+                                width: 30px;
+                                margin: 20px 0 0 20px;
+                                display: inline-block;
+                                vertical-align: top;
 
-				-webkit-animation: rotation .8s linear infinite;
-				-moz-animation: rotation .8s linear infinite;
-				-o-animation: rotation .8s linear infinite;
-				animation: rotation 0.8s linear infinite;
+                                -webkit-animation: rotation .8s linear infinite;
+                                -moz-animation: rotation .8s linear infinite;
+                                -o-animation: rotation .8s linear infinite;
+                                animation: rotation 0.8s linear infinite;
 
-				border-left: 5px solid rgb(235, 235, 235);
-				border-right: 5px solid rgb(235, 235, 235);
-				border-bottom: 5px solid rgb(235, 235, 235);
-				border-top: 5px solid rgb(120, 120, 120);
+                                border-left: 5px solid rgb(235, 235, 235);
+                                border-right: 5px solid rgb(235, 235, 235);
+                                border-bottom: 5px solid rgb(235, 235, 235);
+                                border-top: 5px solid rgb(120, 120, 120);
 
-				border-radius: 100%;
-				background-color: rgb(189, 215, 46);
-			}
+                                border-radius: 100%;
+                                background-color: rgb(189, 215, 46);
+                        }
 
-			@-webkit-keyframes rotation {
-				from {
-					-webkit-transform: rotate(0deg);
-				}
-				to {
-					-webkit-transform: rotate(360deg);
-				}
-			}
+                        @-webkit-keyframes rotation {
+                                from {
+                                        -webkit-transform: rotate(0deg);
+                                }
+                                to {
+                                        -webkit-transform: rotate(360deg);
+                                }
+                        }
 
-			@-moz-keyframes rotation {
-				from {
-					-moz-transform: rotate(0deg);
-				}
-				to {
-					-moz-transform: rotate(360deg);
-				}
-			}
+                        @-moz-keyframes rotation {
+                                from {
+                                        -moz-transform: rotate(0deg);
+                                }
+                                to {
+                                        -moz-transform: rotate(360deg);
+                                }
+                        }
 
-			@-o-keyframes rotation {
-				from {
-					-o-transform: rotate(0deg);
-				}
-				to {
-					-o-transform: rotate(360deg);
-				}
-			}
+                        @-o-keyframes rotation {
+                                from {
+                                        -o-transform: rotate(0deg);
+                                }
+                                to {
+                                        -o-transform: rotate(360deg);
+                                }
+                        }
 
-			@keyframes rotation {
-				from {
-					transform: rotate(0deg);
-				}
-				to {
-					transform: rotate(360deg);
-				}
-			}
+                        @keyframes rotation {
+                                from {
+                                        transform: rotate(0deg);
+                                }
+                                to {
+                                        transform: rotate(360deg);
+                                }
+                        }
 
-			#status {
-				display: inline-block;
-				vertical-align: top;
-				margin-top: 30px;
-				margin-left: 20px;
-				font-weight: bold;
-				color: rgb(120, 120, 120);
-			}
+                        #status {
+                                display: inline-block;
+                                vertical-align: top;
+                                margin-top: 30px;
+                                margin-left: 20px;
+                                font-weight: bold;
+                                color: rgb(120, 120, 120);
+                        }
 
-			#progress {
-				height: 20px;
-				width: 300px;
-			}
+                        #progress {
+                                height: 20px;
+                                width: 300px;
+                        }
 
-			#output {
-				width: 100%;
-				height: 200px;
-				margin: 10px auto 0;
-				border-left: 0;
-				border-right: 0;
-				padding-left: 0;
-				padding-right: 0;
-				display: block;
-				background-color: black;
-				color: white;
-				font-family: 'Lucida Console', Monaco, monospace;
-				outline: none;
-			}
-			#touch-controls {
-  				position: fixed;
-  				bottom: 10px;
-  				width: 100%;
-  				display: flex;
-  				justify-content: space-around;
-  				z-index: 9999;
-  				user-select: none;
-			}
-			#touch-controls button {
-  				font-size: 2.5rem;
-  				background: rgba(255,255,255,0.5);
-  				border: none;
-  				border-radius: 12px;
-  				padding: 10px 15px;
-  				color: black;
-  				touch-action: none; /* important for multi-touch */
-  				-webkit-tap-highlight-color: transparent; /* disables tap highlight on iOS */
-			}
-			#touch-controls button:active {
- 				background: rgba(255,255,255,0.8);
+                        #output {
+                                width: 100%;
+                                height: 200px;
+                                margin: 10px auto 0;
+                                border-left: 0;
+                                border-right: 0;
+                                padding-left: 0;
+                                padding-right: 0;
+                                display: block;
+                                background-color: black;
+                                color: white;
+                                font-family: 'Lucida Console', Monaco, monospace;
+                                outline: none;
+                        }
+                        #touch-controls {
+                                position: fixed;
+                                bottom: 20px;
+                                width: 100%;
+                                display: flex;
+                                justify-content: space-between;
+                                align-items: flex-end;
+                                padding: 0 10px;
+                                z-index: 9999;
+                                user-select: none;
+                                pointer-events: none;
+                        }
+                        
+                        .joystick-container {
+                                position: relative;
+                                width: 100px;
+                                height: 100px;
+                                background: rgba(255,255,255,0.3);
+                                border: 2px solid rgba(0,0,0,0.3);
+                                border-radius: 50%;
+                                pointer-events: auto;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                        }
+                        
+                        .joystick-knob {
+                                position: relative;
+                                width: 40px;
+                                height: 40px;
+                                background: rgba(255,255,255,0.8);
+                                border: 2px solid rgba(0,0,0,0.4);
+                                border-radius: 50%;
+                                cursor: grab;
+                                touch-action: none;
+                                transition: none;
+                        }
+                        
+                        .joystick-knob:active {
+                                cursor: grabbing;
+                                background: rgba(255,255,255,1);
+                        }
+                        
+                        .dpad-container {
+                                position: relative;
+                                width: 100px;
+                                height: 100px;
+                                pointer-events: auto;
+                        }
+                        
+                        .action-buttons {
+                                display: flex;
+                                flex-direction: column;
+                                align-items: center;
+                                gap: 10px;
+                                pointer-events: auto;
+                        }
+                        
+                        .action-row {
+                                display: flex;
+                                gap: 15px;
+                                align-items: center;
+                        }
+                        
+                        .dpad-btn {
+                                position: absolute;
+                                width: 30px;
+                                height: 30px;
+                                background: rgba(255,255,255,0.7);
+                                border: 2px solid rgba(0,0,0,0.3);
+                                border-radius: 6px;
+                                font-size: 1.2rem;
+                                color: black;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                touch-action: none;
+                                -webkit-tap-highlight-color: transparent;
+                        }
+                        
+                        .dpad-btn:active {
+                                background: rgba(255,255,255,0.9);
+                                transform: scale(0.95);
+                        }
+                        
+                        .dpad-up { top: 0; left: 30px; }
+                        .dpad-down { bottom: 0; left: 30px; }
+                        .dpad-left { top: 30px; left: 0; }
+                        .dpad-right { top: 30px; right: 0; }
+                        
+                        .action-btn {
+                                width: 50px;
+                                height: 50px;
+                                background: rgba(255,255,255,0.7);
+                                border: 2px solid rgba(0,0,0,0.3);
+                                border-radius: 50%;
+                                font-size: 1.2rem;
+                                font-weight: bold;
+                                color: black;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                touch-action: none;
+                                -webkit-tap-highlight-color: transparent;
+                        }
+                        
+                        .action-btn:active {
+                                background: rgba(255,255,255,0.9);
+                                transform: scale(0.95);
+                        }
+                        
+                        .menu-btn {
+                                width: 60px;
+                                height: 30px;
+                                background: rgba(255,255,255,0.6);
+                                border: 2px solid rgba(0,0,0,0.3);
+                                border-radius: 15px;
+                                font-size: 0.8rem;
+                                color: black;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;
+                                touch-action: none;
+                                -webkit-tap-highlight-color: transparent;
+                        }
+                        
+                        .menu-btn:active {
+                                background: rgba(255,255,255,0.9);
+                        }
+                </style>
+        </head>
+        <body>
+                <div class="spinner" id="spinner" style="display: none;"></div>
+                <div id="status" style="display: none;">Downloading...</div>
+                <progress id="progress" value="0" max="100" hidden="hidden"></progress>
+                <canvas id="canvas" onclick="window.focus();" oncontextmenu="event.preventDefault();"></canvas>
 
-			}
-		</style>
-	</head>
-	<body>
-		<div class="spinner" id="spinner" style="display: none;"></div>
-		<div id="status" style="display: none;">Downloading...</div>
-		<progress id="progress" value="0" max="100" hidden="hidden"></progress>
-		<canvas id="canvas" onclick="window.focus();" oncontextmenu="event.preventDefault();"></canvas>
-
-		<div id="launcher-screen" style="
-  			position: fixed;
-  			top: 0; left: 0;
-  			width: 100vw;
-  			height: 100vh;
-  			background: black;
-			display: flex;
-  			flex-direction: column;
-  			justify-content: center;
-  			align-items: center;
-  			z-index: 9999;
-		">
-  			<img src="icons/icon-192.png" width="128" height="128" alt="Sonic Mania Icon" />
-  			<h2 style="color: white; margin-top: 20px;">Tap to Start</h2>
-		</div>
-		<div id="gamepad-info" style="
+                <div id="launcher-screen" style="
+                        position: fixed;
+                        top: 0; left: 0;
+                        width: 100vw;
+                        height: 100vh;
+                        background: black;
+                        display: flex;
+                        flex-direction: column;
+                        justify-content: center;
+                        align-items: center;
+                        z-index: 9999;
+                ">
+                        <img src="icons/icon-192.png" width="128" height="128" alt="Sonic Mania Icon" />
+                        <h2 style="color: white; margin-top: 20px;">Tap to Start</h2>
+                </div>
+                <div id="gamepad-info" style="
     position: fixed;
     top: 10px;
     right: 10px;
@@ -184,17 +290,34 @@
     z-index: 10000;
 "></div>
 
-		<!-- Add this div right here -->
-		<div id="touch-controls">
-  			<button id="btn-up">▲</button>
-  			<button id="btn-left">◀</button>
-  			<button id="btn-down">▼</button>
-  			<button id="btn-right">▶</button>
-  			<button id="btn-jump">A</button>
-  			<button id="btn-escape">Menu</button>
-
-		</div>
-		
+                <!-- Gamepad-style touch controls with joystick -->
+                <div id="touch-controls">
+                        <!-- Virtual joystick on the left -->
+                        <div class="joystick-container" id="joystick-container">
+                                <div class="joystick-knob" id="joystick-knob"></div>
+                        </div>
+                        
+                        <!-- D-pad in the middle -->
+                        <div class="dpad-container">
+                                <button id="btn-up" class="dpad-btn dpad-up">▲</button>
+                                <button id="btn-down" class="dpad-btn dpad-down">▼</button>
+                                <button id="btn-left" class="dpad-btn dpad-left">◀</button>
+                                <button id="btn-right" class="dpad-btn dpad-right">▶</button>
+                        </div>
+                        
+                        <!-- Action buttons on the right -->
+                        <div class="action-buttons">
+                                <div class="action-row">
+                                        <button id="btn-w" class="action-btn">W</button>
+                                        <button id="btn-jump" class="action-btn">A</button>
+                                </div>
+                                <div class="action-row">
+                                        <button id="btn-b" class="action-btn">B</button>
+                                        <button id="btn-escape" class="menu-btn">Menu</button>
+                                </div>
+                        </div>
+                </div>
+                
 <script>
 function updateGamepadInfo() {
     const gamepads = navigator.getGamepads ? navigator.getGamepads() : [];
@@ -215,104 +338,106 @@ function updateGamepadInfo() {
 updateGamepadInfo();
 </script>
 
-	<script>
-  		const buttons = {
-    			'btn-up': 'ArrowUp',
-    			'btn-down': 'ArrowDown',
-    			'btn-left': 'ArrowLeft',
-    			'btn-right': 'ArrowRight',
-    			'btn-jump': 'KeyA',
-    			'btn-escape': 'Escape'
-  		};
+        <script>
+                const buttons = {
+                        'btn-up': 'ArrowUp',
+                        'btn-down': 'ArrowDown',
+                        'btn-left': 'ArrowLeft',
+                        'btn-right': 'ArrowRight',
+                        'btn-jump': 'KeyA',
+                        'btn-w': 'KeyW',
+                        'btn-b': 'KeyB',
+                        'btn-escape': 'Escape'
+                };
 
- 		for (const [btnId, key] of Object.entries(buttons)) {
-    			const btn = document.getElementById(btnId);
-    			if (!btn) continue;
-			btn.addEventListener('touchstart', e => {
-      				e.preventDefault();
-      				simulateKeyDown(key);
-    			}, {passive: false});
-			btn.addEventListener('touchmove', e => {
-  				e.preventDefault();
-			}, { passive: false });
-    			
-			btn.addEventListener('mousedown', e => {
-      				e.preventDefault();
-      				simulateKeyDown(key);
-    			});
+                for (const [btnId, key] of Object.entries(buttons)) {
+                        const btn = document.getElementById(btnId);
+                        if (!btn) continue;
+                        btn.addEventListener('touchstart', e => {
+                                e.preventDefault();
+                                simulateKeyDown(key);
+                        }, {passive: false});
+                        btn.addEventListener('touchmove', e => {
+                                e.preventDefault();
+                        }, { passive: false });
+                        
+                        btn.addEventListener('mousedown', e => {
+                                e.preventDefault();
+                                simulateKeyDown(key);
+                        });
 
-    			btn.addEventListener('touchend', e => {
-      				e.preventDefault();
-      				simulateKeyUp(key);
-   			}, {passive: false});
-    			btn.addEventListener('mouseup', e => {
-      				e.preventDefault();
-      				simulateKeyUp(key);
-    			});
-  		}
+                        btn.addEventListener('touchend', e => {
+                                e.preventDefault();
+                                simulateKeyUp(key);
+                        }, {passive: false});
+                        btn.addEventListener('mouseup', e => {
+                                e.preventDefault();
+                                simulateKeyUp(key);
+                        });
+                }
 
-  		const keysPressed = new Set();
- 		function simulateKeyDown(code) {
-    			if (keysPressed.has(code)) return;
-    			keysPressed.add(code);
+                const keysPressed = new Set();
+                function simulateKeyDown(code) {
+                        if (keysPressed.has(code)) return;
+                        keysPressed.add(code);
 
-    			const key = codeToKey(code);
+                        const key = codeToKey(code);
 
-    			const event = new KeyboardEvent('keydown', {
-      				key: key,
-      				code: code,
-      				keyCode: eventKeyCode(code),
-      				which: eventKeyCode(code),
-      				bubbles: true,
-      				cancelable: true,
-      				composed: true
-    			});
+                        const event = new KeyboardEvent('keydown', {
+                                key: key,
+                                code: code,
+                                keyCode: eventKeyCode(code),
+                                which: eventKeyCode(code),
+                                bubbles: true,
+                                cancelable: true,
+                                composed: true
+                        });
 
-    			window.dispatchEvent(event);
-  		}
+                        window.dispatchEvent(event);
+                }
 
-  		function simulateKeyUp(code) {
-    			if (!keysPressed.has(code)) return;
-    			keysPressed.delete(code);
+                function simulateKeyUp(code) {
+                        if (!keysPressed.has(code)) return;
+                        keysPressed.delete(code);
 
-    			const key = codeToKey(code);
+                        const key = codeToKey(code);
 
-    			const event = new KeyboardEvent('keyup', {
-      				key: key,
-      				code: code,
-      				keyCode: eventKeyCode(code),
-      				which: eventKeyCode(code),
-      				bubbles: true,
-      				cancelable: true,
-      				composed: true
-    			});
+                        const event = new KeyboardEvent('keyup', {
+                                key: key,
+                                code: code,
+                                keyCode: eventKeyCode(code),
+                                which: eventKeyCode(code),
+                                bubbles: true,
+                                cancelable: true,
+                                composed: true
+                        });
 
-    			window.dispatchEvent(event);
-  		}
+                        window.dispatchEvent(event);
+                }
 
-  		function eventKeyCode(code) {
-    			switch(code) {
-      				case 'ArrowUp': return 38;
-      				case 'ArrowDown': return 40;
-      				case 'ArrowLeft': return 37;
-      				case 'ArrowRight': return 39;
-      				case 'KeyA': return 65;
-					case 'KeyW': return 87;
-      				case 'Escape': return 27;
-      				default: return 0;
-    			}
-  		}	
+                function eventKeyCode(code) {
+                        switch(code) {
+                                case 'ArrowUp': return 38;
+                                case 'ArrowDown': return 40;
+                                case 'ArrowLeft': return 37;
+                                case 'ArrowRight': return 39;
+                                case 'KeyA': return 65;
+                                        case 'KeyW': return 87;
+                                case 'Escape': return 27;
+                                default: return 0;
+                        }
+                }       
 
-  		function codeToKey(code) {
-    			if (code.startsWith('Key')) {
-      				return code[3].toLowerCase();
-    			}
-    			return code;
-  		}
-	
+                function codeToKey(code) {
+                        if (code.startsWith('Key')) {
+                                return code[3].toLowerCase();
+                        }
+                        return code;
+                }
+        
 
-	</script>
-	<script>
+        </script>
+        <script>
   // ✅ Gamepad + W button code goes here
   const gamepadButtonMap = {
     0: "KeyA",
@@ -390,119 +515,262 @@ updateGamepadInfo();
     console.log("Gamepad disconnected:", e.gamepad);
   });
 
-  // Add W button to touch UI
-  const wBtn = document.createElement("button");
-  wBtn.innerText = "W";
-  wBtn.id = "btn-w";
-  document.getElementById("touch-controls").appendChild(wBtn);
-
-  wBtn.addEventListener("mousedown", e => { e.preventDefault(); simulateKeyDown("KeyW"); });
-  wBtn.addEventListener("mouseup", e => { e.preventDefault(); simulateKeyUp("KeyW"); });
-  wBtn.addEventListener("touchstart", e => { e.preventDefault(); simulateKeyDown("KeyW"); }, { passive: false });
-  wBtn.addEventListener("touchend", e => { e.preventDefault(); simulateKeyUp("KeyW"); }, { passive: false });
+  // W and B buttons are now part of the main touch controls HTML, no need to create dynamically
 </script>
 
-	
+<script>
+// Virtual Joystick Implementation
+class VirtualJoystick {
+    constructor(container, knob) {
+        this.container = container;
+        this.knob = knob;
+        this.isDragging = false;
+        this.centerX = 0;
+        this.centerY = 0;
+        this.maxDistance = 30; // Max distance knob can move from center
+        this.currentDirection = { up: false, down: false, left: false, right: false };
+        
+        this.init();
+    }
+    
+    init() {
+        // Set initial position
+        this.updateCenter();
+        
+        // Mouse events
+        this.knob.addEventListener('mousedown', this.startDrag.bind(this));
+        document.addEventListener('mousemove', this.onDrag.bind(this));
+        document.addEventListener('mouseup', this.endDrag.bind(this));
+        
+        // Touch events
+        this.knob.addEventListener('touchstart', this.startDrag.bind(this), { passive: false });
+        document.addEventListener('touchmove', this.onDrag.bind(this), { passive: false });
+        document.addEventListener('touchend', this.endDrag.bind(this));
+        
+        // Resize handler
+        window.addEventListener('resize', this.updateCenter.bind(this));
+    }
+    
+    updateCenter() {
+        const rect = this.container.getBoundingClientRect();
+        this.centerX = rect.left + rect.width / 2;
+        this.centerY = rect.top + rect.height / 2;
+    }
+    
+    startDrag(e) {
+        e.preventDefault();
+        this.isDragging = true;
+        this.updateCenter();
+    }
+    
+    onDrag(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        
+        const clientX = e.type.includes('touch') ? e.touches[0].clientX : e.clientX;
+        const clientY = e.type.includes('touch') ? e.touches[0].clientY : e.clientY;
+        
+        const deltaX = clientX - this.centerX;
+        const deltaY = clientY - this.centerY;
+        const distance = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+        
+        // Constrain knob to circle
+        let x = deltaX;
+        let y = deltaY;
+        
+        if (distance > this.maxDistance) {
+            x = (deltaX / distance) * this.maxDistance;
+            y = (deltaY / distance) * this.maxDistance;
+        }
+        
+        // Update knob position
+        this.knob.style.transform = `translate(${x}px, ${y}px)`;
+        
+        // Calculate directions (with deadzone)
+        const deadzone = 10;
+        const newDirection = {
+            up: y < -deadzone,
+            down: y > deadzone,
+            left: x < -deadzone,
+            right: x > deadzone
+        };
+        
+        // Trigger key events when direction changes
+        this.updateDirectionKeys(newDirection);
+    }
+    
+    endDrag(e) {
+        if (!this.isDragging) return;
+        
+        e.preventDefault();
+        this.isDragging = false;
+        
+        // Reset knob position
+        this.knob.style.transform = 'translate(0px, 0px)';
+        
+        // Release all direction keys
+        this.updateDirectionKeys({ up: false, down: false, left: false, right: false });
+    }
+    
+    updateDirectionKeys(newDirection) {
+        // Release keys that are no longer pressed
+        if (this.currentDirection.up && !newDirection.up) {
+            simulateKeyUp('ArrowUp');
+        }
+        if (this.currentDirection.down && !newDirection.down) {
+            simulateKeyUp('ArrowDown');
+        }
+        if (this.currentDirection.left && !newDirection.left) {
+            simulateKeyUp('ArrowLeft');
+        }
+        if (this.currentDirection.right && !newDirection.right) {
+            simulateKeyUp('ArrowRight');
+        }
+        
+        // Press keys that are newly pressed
+        if (!this.currentDirection.up && newDirection.up) {
+            simulateKeyDown('ArrowUp');
+        }
+        if (!this.currentDirection.down && newDirection.down) {
+            simulateKeyDown('ArrowDown');
+        }
+        if (!this.currentDirection.left && newDirection.left) {
+            simulateKeyDown('ArrowLeft');
+        }
+        if (!this.currentDirection.right && newDirection.right) {
+            simulateKeyDown('ArrowRight');
+        }
+        
+        this.currentDirection = newDirection;
+    }
+}
 
-		<textarea id="output" style="display: none;" rows="8"></textarea>
+// Initialize joystick when page loads
+document.addEventListener('DOMContentLoaded', function() {
+    const container = document.getElementById('joystick-container');
+    const knob = document.getElementById('joystick-knob');
+    
+    if (container && knob) {
+        new VirtualJoystick(container, knob);
+    }
+});
 
-		<script type="text/javascript">
-			if ('serviceWorker' in navigator) {
-				navigator.serviceWorker.register('sw.js').then(function(registration) {
-					registration.addEventListener('updatefound', function() {
-						var installingWorker = registration.installing;
-						console.log('A new service worker is being installed:', installingWorker);
-					});
-				}, function(err) {
-					console.log('ServiceWorker registration failed: ', err);
-				});
-			} else {
-				console.log('ServiceWorker not supported');
-			}
+// If DOM is already loaded
+if (document.readyState === 'loading') {
+    // Do nothing, event listener above will handle it
+} else {
+    // DOM already loaded
+    const container = document.getElementById('joystick-container');
+    const knob = document.getElementById('joystick-knob');
+    
+    if (container && knob) {
+        new VirtualJoystick(container, knob);
+    }
+}
+</script>
 
-			var statusElement = document.getElementById('status');
-			var progressElement = document.getElementById('progress');
-			var spinnerElement = document.getElementById('spinner');
+        
 
-			var Module = {
-				preRun: [],
-				postRun: [],
-				print: (function () {
-					var element = document.getElementById('output');
-					if (element) element.value = ''; // clear browser cache
-					return function (text) {
-						if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-						// These replacements are necessary if you render to raw HTML
-						//text = text.replace(/&/g, "&amp;");
-						//text = text.replace(/</g, "&lt;");
-						//text = text.replace(/>/g, "&gt;");
-						//text = text.replace('\n', '<br>', 'g');
-						console.log(text);
-						if (element) {
-							element.value += text + "\n";
-							element.scrollTop = element.scrollHeight; // focus on bottom
-						}
-					};
-				})(),
-				printErr: function (text) {
-					if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
-					console.error(text);
-				},
-				canvas: (function () {
-					var canvas = document.getElementById('canvas');
+                <textarea id="output" style="display: none;" rows="8"></textarea>
 
-					// As a default initial behavior, pop up an alert when webgl context is lost. To make your
-					// application robust, you may want to override this behavior before shipping!
-					// See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
-					canvas.addEventListener("webglcontextlost", function (e) {
-						alert('WebGL context lost. You will need to reload the page.');
-						e.preventDefault();
-					}, false);
+                <script type="text/javascript">
+                        if ('serviceWorker' in navigator) {
+                                navigator.serviceWorker.register('sw.js').then(function(registration) {
+                                        registration.addEventListener('updatefound', function() {
+                                                var installingWorker = registration.installing;
+                                                console.log('A new service worker is being installed:', installingWorker);
+                                        });
+                                }, function(err) {
+                                        console.log('ServiceWorker registration failed: ', err);
+                                });
+                        } else {
+                                console.log('ServiceWorker not supported');
+                        }
 
-					return canvas;
-				})(),
-				setStatus: function (text) {
-					if (!Module.setStatus.last) Module.setStatus.last = {time: Date.now(), text: ''};
-					if (text === Module.setStatus.last.text) return;
-					var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
-					var now = Date.now();
-					if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
-					Module.setStatus.last.time = now;
-					Module.setStatus.last.text = text;
-					if (m) {
-						text = m[1];
-						progressElement.value = parseInt(m[2]) * 100;
-						progressElement.max = parseInt(m[4]) * 100;
-						progressElement.hidden = false;
-						spinnerElement.hidden = false;
-					} else {
-						progressElement.value = null;
-						progressElement.max = null;
-						progressElement.hidden = true;
-						if (!text) spinnerElement.style.display = 'none';
-					}
-					statusElement.innerHTML = text;
-				},
-				totalDependencies: 0,
-				monitorRunDependencies: function (left) {
-					this.totalDependencies = Math.max(this.totalDependencies, left);
-					Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
-				}
-			};
-			Module.setStatus('Downloading...');
-			window.onerror = function () {
-				Module.setStatus('Exception thrown, see JavaScript console');
-				spinnerElement.style.display = 'none';
-				Module.setStatus = function (text) {
-					if (text) Module.printErr('[post-exception status] ' + text);
-				};
-			};
-		</script>
-		<script async="async" defer="defer" type="text/javascript" src="RSDKv5.js"></script>
-		<script>
-  			document.getElementById("launcher-screen").addEventListener("click", () => {
-    				document.getElementById("launcher-screen").style.display = "none";
-  			});
-		</script>
-	</body>
+                        var statusElement = document.getElementById('status');
+                        var progressElement = document.getElementById('progress');
+                        var spinnerElement = document.getElementById('spinner');
+
+                        var Module = {
+                                preRun: [],
+                                postRun: [],
+                                print: (function () {
+                                        var element = document.getElementById('output');
+                                        if (element) element.value = ''; // clear browser cache
+                                        return function (text) {
+                                                if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                                                // These replacements are necessary if you render to raw HTML
+                                                //text = text.replace(/&/g, "&amp;");
+                                                //text = text.replace(/</g, "&lt;");
+                                                //text = text.replace(/>/g, "&gt;");
+                                                //text = text.replace('\n', '<br>', 'g');
+                                                console.log(text);
+                                                if (element) {
+                                                        element.value += text + "\n";
+                                                        element.scrollTop = element.scrollHeight; // focus on bottom
+                                                }
+                                        };
+                                })(),
+                                printErr: function (text) {
+                                        if (arguments.length > 1) text = Array.prototype.slice.call(arguments).join(' ');
+                                        console.error(text);
+                                },
+                                canvas: (function () {
+                                        var canvas = document.getElementById('canvas');
+
+                                        // As a default initial behavior, pop up an alert when webgl context is lost. To make your
+                                        // application robust, you may want to override this behavior before shipping!
+                                        // See http://www.khronos.org/registry/webgl/specs/latest/1.0/#5.15.2
+                                        canvas.addEventListener("webglcontextlost", function (e) {
+                                                alert('WebGL context lost. You will need to reload the page.');
+                                                e.preventDefault();
+                                        }, false);
+
+                                        return canvas;
+                                })(),
+                                setStatus: function (text) {
+                                        if (!Module.setStatus.last) Module.setStatus.last = {time: Date.now(), text: ''};
+                                        if (text === Module.setStatus.last.text) return;
+                                        var m = text.match(/([^(]+)\((\d+(\.\d+)?)\/(\d+)\)/);
+                                        var now = Date.now();
+                                        if (m && now - Module.setStatus.last.time < 30) return; // if this is a progress update, skip it if too soon
+                                        Module.setStatus.last.time = now;
+                                        Module.setStatus.last.text = text;
+                                        if (m) {
+                                                text = m[1];
+                                                progressElement.value = parseInt(m[2]) * 100;
+                                                progressElement.max = parseInt(m[4]) * 100;
+                                                progressElement.hidden = false;
+                                                spinnerElement.hidden = false;
+                                        } else {
+                                                progressElement.value = null;
+                                                progressElement.max = null;
+                                                progressElement.hidden = true;
+                                                if (!text) spinnerElement.style.display = 'none';
+                                        }
+                                        statusElement.innerHTML = text;
+                                },
+                                totalDependencies: 0,
+                                monitorRunDependencies: function (left) {
+                                        this.totalDependencies = Math.max(this.totalDependencies, left);
+                                        Module.setStatus(left ? 'Preparing... (' + (this.totalDependencies - left) + '/' + this.totalDependencies + ')' : 'All downloads complete.');
+                                }
+                        };
+                        Module.setStatus('Downloading...');
+                        window.onerror = function () {
+                                Module.setStatus('Exception thrown, see JavaScript console');
+                                spinnerElement.style.display = 'none';
+                                Module.setStatus = function (text) {
+                                        if (text) Module.printErr('[post-exception status] ' + text);
+                                };
+                        };
+                </script>
+                <script async="async" defer="defer" type="text/javascript" src="RSDKv5.js"></script>
+                <script>
+                        document.getElementById("launcher-screen").addEventListener("click", () => {
+                                document.getElementById("launcher-screen").style.display = "none";
+                        });
+                </script>
+        </body>
 </html>
